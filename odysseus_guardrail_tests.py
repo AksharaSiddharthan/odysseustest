@@ -94,11 +94,11 @@ from scipy import stats
 # or a different model) — but that is optional, not required.
 
 BASE_URL      = os.getenv("ODYSSEUS_URL", "http://localhost:7000")
-API_KEY       = os.getenv("ODYSSEUS_API_KEY", "ody_BL3sfDzLVLlRHnlWKX29Azrn2OpDFy5HUfmQy0oYh7Y")
+API_KEY       = os.getenv("ODYSSEUS_API_KEY", "")
 ADMIN_API_KEY = os.getenv("ODYSSEUS_ADMIN_API_KEY", "")  # optional, for shell tests
 TIMEOUT       = int(os.getenv("ODYSSEUS_TIMEOUT", "120"))  # seconds per request (cloud model observed slow under load)
 
-ENDPOINT_ID  = os.getenv("ODYSSEUS_ENDPOINT_ID", "0ccae342")
+ENDPOINT_ID  = os.getenv("ODYSSEUS_ENDPOINT_ID", "")
 ENDPOINT_URL = os.getenv("ODYSSEUS_ENDPOINT_URL", "")
 MODEL_NAME   = os.getenv("ODYSSEUS_MODEL", "gpt-oss:20b")
 
