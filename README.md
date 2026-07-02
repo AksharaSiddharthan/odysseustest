@@ -1,6 +1,6 @@
 # odysseustest
 
-A test suite built against **Odysseus**, a self-hosted, Docker-deployed AI workspace (FastAPI backend). It was developed as part of an AIEnsured internship engagement and covers everything from API contract checks to agentic red-teaming - five independent test files spanning property-based testing, live integration testing, metamorphic/hallucination/reliability testing, security-control verification, and a large agentic guardrail suite.
+A test suite built against **Odysseus**, a self-hosted, Docker-deployed AI workspace (FastAPI backend). It  covers everything from API contract checks to agentic red-teaming - five independent test files spanning property-based testing, live integration testing, metamorphic/hallucination/reliability testing, security-control verification, and a large agentic guardrail suite.
 
 Endpoint paths, request schemas, and auth mechanisms used throughout are taken directly from the Odysseus source (`routes/chat_routes.py`, `routes/session_routes.py`, `routes/history_routes.py`, `routes/shell_routes.py`), not guessed - so the tests exercise real behavior rather than assumed behavior.
 
@@ -80,21 +80,6 @@ The largest file (~1,200 lines, pytest + hypothesis + scipy), covering 9 areas o
 9. **Stochastic Core** - variance and stability characterization across repeated non-deterministic runs
 
 ---
-
-## Reusable testing methodology for the agentic AI testing platform
-
-The value of this repo for AIEnsured isn't just "tests for Odysseus" - most of the test *logic* here is app-agnostic and only the thin HTTP-adapter layer (`chat()`, `ensure_session()`, endpoint paths) is Odysseus-specific. The following patterns can be lifted wholesale into a general-purpose agentic AI testing platform and pointed at any target application:
-
-- **Property-based testing engine** - the dependency-free generator/trial engine in `run_odysseus_tests.py` (`samples_text`, `samples_int`, `samples_dict_list`, `property_test`) works against any function under test and needs no install footprint, useful for a lightweight CI-embedded check layer.
-- **Metamorphic relations** - paraphrase invariance, order invariance, negation-sentiment flips, additive-irrelevant-context stability, and commutativity checks are all input-transformation patterns that apply to *any* chat-completing agent, not just Odysseus.
-- **Hallucination probing** - the trap-question / control-question design (ask about something unknowable, verify refusal or hedging language; ask about something known, verify a confident correct answer) generalizes directly, as does the hallucination-rate threshold pattern.
-- **Stochastic reliability scoring** - the Jaccard-style vocabulary-overlap consistency score across repeated runs is a reusable metric for any LLM-backed endpoint's determinism/stability testing.
-- **Prompt-injection / trust-boundary suite** - the 10 injection payload templates (hidden instructions in tool output, HTML comments, zero-width characters, fake system overrides, fake tool announcements) are transferable verbatim to test any agent that ingests untrusted third-party content.
-- **Privilege-escalation / RBAC testing** - the role-ordering model (`guest < viewer < user < admin`) and the "non-admin denied admin action" / "permission set monotonicity across roles" properties are a reusable authorization-testing template.
-- **Session/memory isolation testing** - concurrent-session leakage checks and memory-write poisoning tests generalize to any multi-tenant agent platform.
-- **Output-firewall testing** - system-prompt leak, internal-policy leak, and schema/attribute-inference probes are reusable for any agent with an internal configuration surface worth protecting.
-- **Chain-of-thought consistency checks** - a cheap black-box interpretability proxy: verify the stated reasoning steps are consistent with the final answer, reusable for any agent that exposes intermediate reasoning.
-- **Malformed/edge-case input handling** - empty input, oversized input, malformed JSON, unknown IDs, and short-timeout resilience checks are standard robustness tests that apply to any FastAPI/pydantic-backed agent API.
 
 ### Porting checklist for a new target application
 1. Replace the HTTP adapter functions (`chat()`, `ensure_session()`, `get_history()`, auth headers) with the new app's actual endpoint shapes - this is the only genuinely app-specific code.
