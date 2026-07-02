@@ -2,6 +2,8 @@
 
 A test suite built against **Odysseus**, a self-hosted, Docker-deployed AI workspace (FastAPI backend). It  covers everything from API contract checks to agentic red-teaming - five independent test files spanning property-based testing, live integration testing, metamorphic/hallucination/reliability testing, security-control verification, and a large agentic guardrail suite.
 
+Odysseus: https://github.com/pewdiepie-archdaemon/odysseus
+
 Endpoint paths, request schemas, and auth mechanisms used throughout are taken directly from the Odysseus source (`routes/chat_routes.py`, `routes/session_routes.py`, `routes/history_routes.py`, `routes/shell_routes.py`), not guessed - so the tests exercise real behavior rather than assumed behavior.
 
 ## Setup
